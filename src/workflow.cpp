@@ -57,7 +57,7 @@ void init_process(Process& r, std::string mode){
 void initialize(std::string mode, std::string path, double mu){
 	print_logo();
 	boost::property_tree::ptree config;
-    initialize_mD_and_scale(1, mu);
+    initialize_mD_and_scale(0, mu);
 
 	AllProcesses[4] = std::vector<Process>();
 	AllProcesses[4].push_back( Rate22("Boltzmann/cq2cq", path, dX_Qq2Qq_dt) );
@@ -202,7 +202,7 @@ std::vector<double> probe_test(double E0, double T, double dt=0.05, int Nsteps=1
 std::vector<std::vector<double>> rate_test(double E0, double T, double dt=0.05, int Nsteps=100, int Nparticles=10000, std::string mode="old", double rescale=1.0){
   double fmc_to_GeV_m1 = 5.026;
 	initialize(mode, "./settings.xml", 1.0);
-	double M = 1.3;
+	double M = 0.2;
 	std::vector<std::vector<double>> Rate;
   Rate.resize(Nsteps);
 	std::vector<particle> plist(Nparticles);
@@ -232,9 +232,12 @@ std::vector<std::vector<double>> rate_test(double E0, double T, double dt=0.05, 
 			p.freestream(dt);
 			if (channel>=0) {
 				p.p = FS[0];
-				if (channel == 2 || channel ==3) p.t_rad = time;
+				if (channel == 2 || channel ==3) {
+            p.t_rad = time;
+            if (FS[2].t() >7.5 && FS[2].t() < 8.5) Rate[it][channel] += 1.;
+        }
 				if (channel == 4 || channel ==5) p.t_absorb = time;
-        Rate[it][channel] += 1.;
+
 			}
 		}
     for (int c=0; c<6; c++){

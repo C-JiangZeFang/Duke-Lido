@@ -48,6 +48,7 @@ with open("True-qhat.txt", 'w') as f:
 
 
 """
+"""
 with h5py.File('kappa.h5', 'a') as f:
 	for nPDF in ['EPPS','nCTEQ']:
 		mu, A, B = np.loadtxt(nPDF+'-sample-parameter.txt').T
@@ -71,6 +72,29 @@ with h5py.File('kappa.h5', 'a') as f:
 				gp.create_dataset('{}/kz'.format(ptype), data=kz)
 			gp.attrs.create('E', E)
 			gp.attrs.create('T', T)
+			
+			with h5py.File('kappa.h5', 'a') as f:
+			
+"""
+with h5py.File('kappa-prior.h5', 'w') as f:
+	mu, A, B = np.exp(np.random.uniform(-1.1, 1.0, 100)), np.exp(np.random.uniform(0.01,1.6, 100))-1., np.exp(np.random.uniform(0.01, 1.6, 100))-1.
+	for i, (m, a, b) in enumerate(zip(mu, A, B)):
+		print(i, m, a, b)
+		gp_name = "{:d}".format(i)
+		gp = f.require_group(gp_name)
+		gp.attrs.create('mu', mu)
+		gp.attrs.create('A', a)
+		gp.attrs.create('B', b)
+
+		subprocess.call("rm table.h5", shell=True)
+		event.event(medium={'type':'static', 'static_dt':0.05}, LBT={'mu':m})
+		for ptype in ['c', 'b']:
+			E, T, kz, kt, kd = get_kappa(ptype, a, b)
+			gp.create_dataset('{}/kd'.format(ptype), data=kd)
+			gp.create_dataset('{}/kt'.format(ptype), data=kt)
+			gp.create_dataset('{}/kz'.format(ptype), data=kz)
+		gp.attrs.create('E', E)
+		gp.attrs.create('T', T)
 
 
 

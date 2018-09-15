@@ -6,18 +6,18 @@ from event import probe_run, rate_run
 
 dt = 0.025
 Nsteps = 200
-Np = 2000
+Np = 200000
 L = np.arange(Nsteps)*dt
-E = np.exp(np.linspace(np.log(2), np.log(100), 20))
-f = h5py.File("BoxRate.h5", 'a')
-name = 'rad+abs'
+E = np.array([5, 16, 100])
+f = h5py.File("DiffBoxRate.h5", 'a')
+name = 'diff-rate-rad-8GeV'
 if name in f:
 	del f[name]
 gp = f.create_group(name)
-gp.attrs.create('T', [0.2, 0.4, 0.6])
+gp.attrs.create('T', [0.2, 0.4])
 gp.attrs.create('E', E)
 gp.attrs.create('L', L)
-for iT, T in enumerate([0.2, 0.4, 0.6]):
+for iT, T in enumerate([0.2, 0.4]):
 	for iE, E0 in enumerate(E):
 		mode = 'old' if os.path.exists('table.h5') else 'new'
 		R = rate_run(E0, T, dt=dt, Nsteps=Nsteps, Nparticles=Np, mode=mode)

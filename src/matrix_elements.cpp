@@ -10,6 +10,7 @@ double renormalization_scale; // default
 
 //=============running coupling=================================================
 double alpha_s(double Q2, double T){
+	return 0.3;
 	double screen_scale2 = std::pow(renormalization_scale*M_PI*T, 2);
 	double mu2;
     if (Q2 < 0.) mu2 = std::max(-Q2, screen_scale2);
@@ -224,8 +225,8 @@ double M2_Qq2Qqg(const double * x_, void * params_){
 	       xbar = (kmu.t()+std::abs(kmu.z()))/sqrts;
 	double one_minus_xbar = 1.-xbar;
 
-	double iD1 = 1./(kt2 + x*x*M2 + (1.-xbar)*mD2/2.),
-	       iD2 = 1./(kt_qt2 + x*x*M2 + (1.-xbar)*mD2/2.);
+	double iD1 = 1./(kt2 + 0.*x*x*M2 + (1.-xbar)*mD2/2.),
+	       iD2 = 1./(kt_qt2 + 0.*x*x*M2 + (1.-xbar)*mD2/2.);
 	double tauk = 2.*one_minus_xbar*kmu.t()*iD1;
 	// here u is the ratio of the mean-free-path over the formation length
 	// mean-free-path \sim mean-free-time*v_HQ,
@@ -293,8 +294,8 @@ double M2_Qg2Qgg(const double * x_, void * params_){
     double x = (kmu.t()+kmu.z())/sqrts,
            xbar = (kmu.t()+std::abs(kmu.z()))/sqrts;
     double one_minus_xbar = 1.-xbar;
-    double iD1 = 1./(kt2 + x*x*M2 + (1.-xbar)*mD2/2.),
-           iD2 = 1./(kt_qt2 + x*x*M2 + (1.-xbar)*mD2/2.);
+    double iD1 = 1./(kt2 + 0.*x*x*M2 + (1.-xbar)*mD2/2.),
+           iD2 = 1./(kt_qt2 + 0.*x*x*M2 + (1.-xbar)*mD2/2.);
     double tauk = 2.*one_minus_xbar*kmu.t()*iD1;
 	double u = dt/tauk*(s-M2)/(s+M2);
 
@@ -326,7 +327,7 @@ double prefix_3to2(double s, double s12, double s1k, double dt, double M, double
 	double kt2 = k*k*(1. - costhetak*costhetak);
 	double kz = k*costhetak;
 	double x = (k+kz)/(sqrts12+k+kz), xbar = (k+std::abs(kz))/(sqrts12+k+std::abs(kz));
-	double x2M2 = x*x*M2;
+	double x2M2 = 0.*x*x*M2;
 	double mD2 = t_channel_mD2->get_mD2(T);
 	double tauk = 2.*(1.-xbar)*k/(kt2 + x2M2 + (1.-xbar)*mD2/2.);
 	return f_LPM(dt/tauk*(s12-M2)/(s12+M2));
@@ -379,7 +380,7 @@ double Ker_Qqg2Qq(const double * x_, void * params_){
 
 	double new_params[3] = {s, T, M};
 	double M2_elastic = M2_Qq2Qq_rad(t, params);
-	double x2M2 = x*x*M2;
+	double x2M2 = 0.*x*x*M2;
 
 	// 1->2
 	double iD1 = 1./(kt2 + x2M2 + (1.-xbar)*mD2/2.);
@@ -442,7 +443,7 @@ double Ker_Qgg2Qg(const double * x_, void * params_){
 
 	double new_params[3] = {s, T, M};
 	double M2_elastic = M2_Qg2Qg_rad(t, params);
-	double x2M2 = x*x*M2;
+	double x2M2 = 0.*x*x*M2;
 
 	// 1->2
 	double iD1 = 1./(kt2 + x2M2 + (1.-xbar)*mD2/2.);

@@ -5,7 +5,7 @@ Heavy quarks scatter with medium particle via pertrubative matrix-elements.
 Between scatterings, heavy quarks undergo diffusive motion with empricical transport coefficient parametring the missing interaction in the above scattering picture.
 
 ---------------------------------------------
-The linearized Boltzmann equation
+Perturbative Scattering
 ---------------------------------------------
 The scattering dynamics is governed by the linearized Boltzmann equation,
 
@@ -44,7 +44,7 @@ Then, evolve each particle in a split-step manner, first determine the collision
 If a collision happens according to the probablity `P`, then the details of initial and final states are obtained by sampling the phase space :math:`d\Gamma` s accoding to the differential rate.
 
 ----------------------------------------------
-Langevin equation
+Non-perturbative diffusion
 ----------------------------------------------
 The diffusive motion is solved by the Langevin equation,
 
